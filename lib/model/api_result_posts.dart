@@ -19,7 +19,7 @@ class Post {
   String? title;
   String? description;
   String? image;
-  String? date;
+  DateTime? date;
   String? author;
   bool? favorite;
 
@@ -37,8 +37,11 @@ class Post {
     title = json['title'];
     description = json['description'];
     image = json['image'];
-    date = json['date'];
+    date = DateTime.parse(json['date'].toString());
     author = json['author'];
     favorite = false;
+
+    // DateTime trydt = DateTime.parse(json['date']);
+    // print('datetime: ' + trydt.toString());
   }
 }

@@ -1,3 +1,4 @@
+import 'package:besquare_chat_room/create_post/create_post.dart';
 import 'package:besquare_chat_room/model/api_result_posts.dart';
 import 'package:besquare_chat_room/posts/post_item.dart';
 import 'package:besquare_chat_room/posts/posts_bloc/post_bloc.dart';
@@ -31,6 +32,18 @@ class _PostsPageState extends State<PostsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Posts page'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'create a post',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreatePostPage()),
+              );
+            },
+          )
+        ],
       ),
       body: SafeArea(
           child: Container(
@@ -47,11 +60,13 @@ class _PostsPageState extends State<PostsPage> {
               }
 
               allPosts = snapshot.data;
+              allPosts = List.from(allPosts!.reversed);
+
               return ListView.builder(
                 itemBuilder: (context, index) {
                   return PostItem(post: allPosts![index]);
                 },
-                itemCount: 9,
+                itemCount: 3,
               );
             }),
       )),

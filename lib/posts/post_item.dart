@@ -38,7 +38,7 @@ class _PostItemState extends State<PostItem> {
                   child: Column(
                     children: [
                       Text(widget.post.title ?? 'no title'),
-                      Text(widget.post.date ?? 'no date'),
+                      Text((widget.post.date ?? 'no date').toString()),
                       Text(
                         widget.post.description ?? 'no description',
                         overflow: TextOverflow.ellipsis,

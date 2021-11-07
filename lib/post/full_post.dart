@@ -36,7 +36,7 @@ class _FullPostPageState extends State<FullPostPage> {
                     children: [
                       Text(widget.post.title ?? 'no title'),
                       Text(widget.post.author ?? 'no author'),
-                      Text(widget.post.date ?? 'no date'),
+                      Text((widget.post.date ?? 'no date').toString()),
                     ],
                   ),
                 ),
