@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:besquare_chat_room/create_post/create_post_cubit.dart';
 import 'package:besquare_chat_room/model/api_result_posts.dart';
 import 'package:besquare_chat_room/posts/posts_bloc/post_event.dart';
 import 'package:web_socket_channel/io.dart';
@@ -13,20 +14,14 @@ Stream<List<Post>> postsStream = postsController.stream;
 
 besquareServer() async {
   channel.stream.listen((message) {
-    // print(message);
+    print(message);
     var data = jsonDecode(message);
     // print(data['data']['posts']);
 
     if (data['type'] == 'all_posts') {
-      print("all posts is retrieved");
-      // posts = getPosts(data['data']['posts']) as List<Post>;
       List<Post> resultPosts;
       resultPosts = ApiResultPosts.fromJson(data['data']).posts!;
-      print("type of data-all posts: " + resultPosts.runtimeType.toString());
-      // postsController.add(data['data']['posts']);
       postsController.add(resultPosts);
-
-      dispose();
     }
   });
 }
@@ -41,22 +36,11 @@ signInUser(var username) {
   channel.sink.add('{"type": "get_posts"}');
 }
 
-Future<List<Post>?> getPosts(data) async {
-  List<Post> resultPosts;
-  resultPosts = ApiResultPosts.fromJson(data).posts!;
-  return resultPosts;
+createNewPost(NewPost post) {
+  channel.sink.add(
+      '{"type": "create_post","data": {"title": "${post.title}","description": "${post.description}","image": "${post.image}"}}');
 }
 
-Future<List<Post>> retrievePosts() async {
-  return posts;
+deletePost(String postId) {
+  channel.sink.add('{"type": "delete_post","data": {"postId": "$postId"}}');
 }
-
-// Future<List<Post>> getAllPosts() async {
-//   Future<List<Post>> postList;
-//   StreamSubscription postsStreamSubscription = postsStream.listen((value) {
-//     print('hi: $value');
-//     postList = ApiResultPosts.fromJson(value).posts! as Future<List<Post>>;
-//   });
-
-//   return await postList;
-// }

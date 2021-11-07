@@ -15,15 +15,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     if (event is FetchPostsEvent) {
       print('in fetch');
       yield PostLoadingState();
-      try {
-        print('in try');
-        List<Post> chatPosts = await retrievePosts();
-        print("in fetch chatPosts: " + chatPosts.toString());
-        yield PostLoadedState(posts: chatPosts);
-      } catch (e) {
-        print("in error " + e.toString());
-        yield PostErrorState(message: e.toString());
-      }
+      // try {
+      //   print('in try');
+      //   // List<Post> chatPosts = await retrievePosts();
+      //   print("in fetch chatPosts: " + chatPosts.toString());
+      //   yield PostLoadedState(posts: chatPosts);
+      // } catch (e) {
+      //   print("in error " + e.toString());
+      //   yield PostErrorState(message: e.toString());
+      // }
     }
   }
 }

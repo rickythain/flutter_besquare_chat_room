@@ -1,11 +1,14 @@
 import 'package:besquare_chat_room/model/api_result_posts.dart';
 import 'package:besquare_chat_room/post/full_post.dart';
+import 'package:besquare_chat_room/storage/besquare_server.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatefulWidget {
   // const PostItem({Key? key}) : super(key: key);
   Post post;
-  PostItem({Key? key, required this.post}) : super(key: key);
+  var author;
+  PostItem({Key? key, required this.post, required this.author})
+      : super(key: key);
 
   @override
   _PostItemState createState() => _PostItemState();
@@ -20,8 +23,6 @@ class _PostItemState extends State<PostItem> {
         child: Material(
           child: InkWell(
             child: Row(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // textDirection: TextDirection.ltr,
               children: [
                 Expanded(
                   child: Image.network(
@@ -37,17 +38,35 @@ class _PostItemState extends State<PostItem> {
                 Expanded(
                   child: Column(
                     children: [
-                      Text(widget.post.title ?? 'no title'),
+                      Text(
+                        widget.post.title ?? 'no title',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
                       Text((widget.post.date ?? 'no date').toString()),
                       Text(
                         widget.post.description ?? 'no description',
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        softWrap: false,
                       ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                   ),
                   flex: 3,
-                )
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    (widget.author == widget.post.author)
+                        ? IconButton(
+                            onPressed: () =>
+                                deletePost(widget.post.id.toString()),
+                            icon: Icon(Icons.delete))
+                        : Container(),
+                  ],
+                ))
               ],
             ),
             onTap: () {

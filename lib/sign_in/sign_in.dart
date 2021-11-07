@@ -43,7 +43,9 @@ class _SignInPageState extends State<SignInPage> {
                   MaterialPageRoute(
                       builder: (_) => BlocProvider(
                             create: (context) => PostBloc(PostInitialState()),
-                            child: const PostsPage(),
+                            child: PostsPage(
+                              author: _cubitSignIn.state,
+                            ),
                           )),
                 );
               },

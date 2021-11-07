@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostsPage extends StatefulWidget {
-  const PostsPage({Key? key}) : super(key: key);
+  final author;
+  PostsPage({Key? key, required this.author}) : super(key: key);
 
   @override
   _PostsPageState createState() => _PostsPageState();
@@ -19,12 +20,27 @@ class _PostsPageState extends State<PostsPage> {
   late PostBloc postBloc;
   List<Post>? allPosts = [];
 
+  var _listCap = 15;
+  var _listViewController = ScrollController();
+
   @override
   void initState() {
     super.initState();
 
     postBloc = BlocProvider.of<PostBloc>(context);
     postBloc.add(FetchPostsEvent());
+
+    _listViewController.addListener(() {
+      if (_listViewController.position.atEdge) {
+        if (_listViewController.position.pixels == 0) {
+        } else {
+          setState(() {
+            _listCap += 10;
+          });
+          // print("reach end " + _listCap.toString());
+        }
+      }
+    });
   }
 
   @override
@@ -64,9 +80,13 @@ class _PostsPageState extends State<PostsPage> {
 
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  return PostItem(post: allPosts![index]);
+                  return PostItem(
+                    post: allPosts![index],
+                    author: widget.author,
+                  );
                 },
-                itemCount: 3,
+                itemCount: _listCap,
+                controller: _listViewController,
               );
             }),
       )),
