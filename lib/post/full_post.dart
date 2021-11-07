@@ -1,0 +1,49 @@
+import 'package:besquare_chat_room/model/api_result_posts.dart';
+import 'package:flutter/material.dart';
+
+class FullPostPage extends StatefulWidget {
+  // const FullPostPage({Key? key}) : super(key: key);
+  Post post;
+  FullPostPage({Key? key, required this.post}) : super(key: key);
+
+  @override
+  _FullPostPageState createState() => _FullPostPageState();
+}
+
+class _FullPostPageState extends State<FullPostPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Post'),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.network(
+                  widget.post.image ??
+                      'https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1199024795?b=1&k=20&m=1199024795&s=170667a&w=0&h=DTSoNLtBG8cvnopNM2NGhNZhFtmbJfFrRTddcmhT2KE=',
+                  errorBuilder: (context, error, stackTrace) {
+                    return Text('whoops!');
+                  },
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Text(widget.post.title ?? 'no title'),
+                      Text(widget.post.author ?? 'no author'),
+                      Text(widget.post.date ?? 'no date'),
+                    ],
+                  ),
+                ),
+                Text(widget.post.description ?? 'no description')
+              ],
+            ),
+          ),
+        ));
+  }
+}

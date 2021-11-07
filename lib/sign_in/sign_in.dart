@@ -1,6 +1,9 @@
 import 'package:besquare_chat_room/posts/posts.dart';
+import 'package:besquare_chat_room/posts/posts_bloc/post_bloc.dart';
+import 'package:besquare_chat_room/posts/posts_bloc/post_state.dart';
 import 'package:besquare_chat_room/sign_in/sign_in_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key, required this.title}) : super(key: key);
@@ -37,7 +40,11 @@ class _SignInPageState extends State<SignInPage> {
                 _cubitSignIn.signIn();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PostsPage()),
+                  MaterialPageRoute(
+                      builder: (_) => BlocProvider(
+                            create: (context) => PostBloc(PostInitialState()),
+                            child: const PostsPage(),
+                          )),
                 );
               },
             )
