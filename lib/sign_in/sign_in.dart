@@ -22,35 +22,46 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const Text('Welcome to Besquare Chat Room'),
-            TextField(
-              decoration:
-                  const InputDecoration(hintText: 'Enter your username'),
-              onChanged: (text) {
-                _cubitSignIn.textChanged(text);
-              },
-            ),
-            ElevatedButton(
-              child: const Text('enter'),
-              onPressed: () {
-                _cubitSignIn.signIn();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => BlocProvider(
-                            create: (context) => PostBloc(PostInitialState()),
-                            child: PostsPage(
-                              author: _cubitSignIn.state,
-                            ),
-                          )),
-                );
-              },
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Welcome to Besquare Chat Room',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              TextField(
+                decoration:
+                    const InputDecoration(hintText: 'Enter your username'),
+                onChanged: (text) {
+                  _cubitSignIn.textChanged(text);
+                },
+              ),
+              ElevatedButton(
+                child: const Text('enter'),
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
+                onPressed: () {
+                  _cubitSignIn.signIn();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                              create: (context) => PostBloc(PostInitialState()),
+                              child: PostsPage(
+                                author: _cubitSignIn.state,
+                              ),
+                            )),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:besquare_chat_room/create_post/create_post.dart';
+import 'package:besquare_chat_room/create_post/image_preview_cubit.dart';
 import 'package:besquare_chat_room/model/api_result_posts.dart';
+import 'package:besquare_chat_room/posts/post_fav_cubit.dart';
 import 'package:besquare_chat_room/posts/post_item.dart';
 import 'package:besquare_chat_room/posts/posts_bloc/post_bloc.dart';
 import 'package:besquare_chat_room/posts/posts_bloc/post_event.dart';
@@ -20,7 +22,7 @@ class _PostsPageState extends State<PostsPage> {
   late PostBloc postBloc;
   List<Post>? allPosts = [];
 
-  var _listCap = 15;
+  var _listCap = 5;
   var _listViewController = ScrollController();
 
   @override
@@ -47,7 +49,8 @@ class _PostsPageState extends State<PostsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posts page'),
+        title: Text('Feed'),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
@@ -55,7 +58,11 @@ class _PostsPageState extends State<PostsPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreatePostPage()),
+                MaterialPageRoute(
+                    builder: (_) => BlocProvider(
+                          create: (context) => ImagePreview(),
+                          child: CreatePostPage(),
+                        )),
               );
             },
           )
@@ -72,7 +79,11 @@ class _PostsPageState extends State<PostsPage> {
               }
 
               if (!snapshot.hasData) {
-                return Text('loading data');
+                return Center(
+                    child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ));
               }
 
               allPosts = snapshot.data;
@@ -80,9 +91,12 @@ class _PostsPageState extends State<PostsPage> {
 
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  return PostItem(
-                    post: allPosts![index],
-                    author: widget.author,
+                  return BlocProvider(
+                    create: (_) => FavPost(),
+                    child: PostItem(
+                      post: allPosts![index],
+                      author: widget.author,
+                    ),
                   );
                 },
                 itemCount: _listCap,

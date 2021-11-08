@@ -18,8 +18,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Besquare Chat Room',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primaryColor: Colors.red.shade300,
+          fontFamily: 'Georgia',
+          textTheme: const TextTheme(
+            headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 28.0),
+            bodyText1: TextStyle(
+                fontSize: 16.0, fontFamily: 'Hind', color: Colors.grey),
+            bodyText2: TextStyle(
+                fontSize: 16.0,
+                fontFamily: 'Hind',
+                fontStyle: FontStyle.italic),
+          )),
       home: SignInPage(title: 'Sign In'),
     );
   }

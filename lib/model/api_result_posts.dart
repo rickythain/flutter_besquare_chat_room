@@ -44,4 +44,8 @@ class Post {
     // DateTime trydt = DateTime.parse(json['date']);
     // print('datetime: ' + trydt.toString());
   }
+
+  void setFav(bool favStatus) {
+    favorite = favStatus;
+  }
 }

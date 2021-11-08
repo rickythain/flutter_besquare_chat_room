@@ -33,6 +33,10 @@ void dispose() {
 
 signInUser(var username) {
   channel.sink.add('{"type": "sign_in","data": {"name": "$username"}}');
+  getAllPosts();
+}
+
+getAllPosts() {
   channel.sink.add('{"type": "get_posts"}');
 }
 
